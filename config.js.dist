@@ -1,0 +1,22 @@
+(function () {
+    'use script';
+
+    var config = module.exports = {};
+
+    config.server = {
+        defaultPort: 4242, // Will be used if no ENV var is provided
+    };
+
+    config.app = {
+        cookieSecret: 'your secret here',
+    };
+
+    // A null value means a mongo default value
+    config.mongodb = {
+        host: 'localhost',
+        port: null,
+        dbName: 'infoblog',
+        maxPoolSize: null,
+        autoReconnect: true,
+    };
+}());

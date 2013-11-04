@@ -1,0 +1,14 @@
+{
+  "name": "infoblog",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Infoblog aims to be a blog system adapted to the needs of programmers/computer scientists.",
+  "dependencies": {
+    "express": "3.2.5",
+    "jade": "*",
+    "node-sass": "~0.7.0",
+    "mongodb": "~1.3.19",
+    "marked": "~0.2.10",
+    "async": "~0.2.9"
+  }
+}
