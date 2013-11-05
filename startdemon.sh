@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-nodemon -w routes -w lib -w node_modules -w config.js -w server.js server.js
+nodemon -w routes -w lib -w providers -w models -w node_modules -w config.js -w server.js server.js
