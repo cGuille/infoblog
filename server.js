@@ -12,7 +12,7 @@
             sass = require('node-sass'),
             async = require('async'),
             routes = require('./routes'),
-            user = require('./routes/user'),
+            userRoutes = require('./routes/user'),
             config = require('./config'),
             db = require('./lib/db-access');
     } catch (error) {
@@ -53,7 +53,8 @@
 
     // Routes definitions
     app.get('/', routes.index);
-    app.get('/users', user.list);
+    app.get('/user/list', userRoutes.list);
+    app.get('/user/details', userRoutes.details);
 
     // Starting server
     async.parallel([
@@ -75,6 +76,7 @@
         if (error) {
             throw error;
         }
+        userRoutes.init();
         console.log('infoblog is ready');
     });
 }());
