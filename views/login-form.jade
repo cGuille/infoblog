@@ -6,6 +6,8 @@ block content
         p.error= error.message
 
     form(action=action, method="post")
+        !{csrf_protection}
+
         label(for="login") Login :
         br
         input(type="text", value=data.login, id="login", name="login")

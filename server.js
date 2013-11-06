@@ -65,6 +65,12 @@
                 '^/user/details': ['owner'],
             }
         }));
+        app.use(express.csrf());
+        app.use(function exportCSRFProtection(request, response, next) {
+            // just add !{csrf_protection} in a jade template form
+            response.locals.csrf_protection = '<input type="hidden" name="_csrf" value="' + request.session._csrf + '" />';
+            next(null);
+        });
         app.use(app.router);
         app.use(express.static(path.join(__dirname, 'public')));
 
