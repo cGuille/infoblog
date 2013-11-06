@@ -19,9 +19,21 @@
     }
 
     User.prototype.setPassword = function (rawPassword) {
-        var hash = crypto.createHash('sha256');
-        hash.update((+this.registrationDate).toString());
-        hash.update(rawPassword);
-        this.hashpass = hash.digest('hex');
+        this.hashpass = hashPassword(rawPassword, getSalt.call(this));
     };
+
+    User.prototype.checkPassword = function(password) {
+        return this.hashpass === hashPassword(password, getSalt.call(this));
+    };
+
+    function getSalt() {
+        return (+this.registrationDate).toString();
+    }
+
+    function hashPassword(rawPassword, salt) {
+        var hash = crypto.createHash('sha256');
+        hash.update(salt);
+        hash.update(rawPassword);
+        return hash.digest('hex');
+    }
 }());

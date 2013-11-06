@@ -3,15 +3,15 @@
 
     var exports = module.exports = {};
 
-    var UserProvider = require('../providers/user'),
-        dbAccess = require('../lib/db-access');
+    var UserProvider = require('../providers/user');
 
     var userProvider;
 
-    exports.init = function init() {
-        if (!userProvider) {
-            userProvider = new UserProvider(dbAccess.get());
+    exports.init = function init(db) {
+        if (userProvider) {
+            console.error('erasing userProvider!');
         }
+        userProvider = new UserProvider(db);
     };
 
     /*

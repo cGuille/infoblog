@@ -2,6 +2,11 @@
 /*
  * GET home page.
  */
-exports.index = function(req, res){
-  res.render('index', { title: 'Welcome' });
+exports.index = function(request, response){
+    var locals = { title: 'Welcome' };
+
+    if (request.user) {
+        locals.user = request.user;
+    }
+    response.render('index', locals);
 };

@@ -2,4 +2,11 @@ extends layout
 
 block content
     h1= title
-    p Welcome to #{title}
+    ul
+        li
+            if user
+                a(href="/logout") Logout
+            else
+                a(href="/login") Login
+        li
+            a(href="/user/list") User list
