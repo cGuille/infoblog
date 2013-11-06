@@ -4,7 +4,7 @@
     var config = module.exports = {};
 
     config.server = {
-        defaultPort: 4242, // Will be used if no ENV var is provided
+        defaultPort: 4242, // Will be used if no env.PORT is provided
     };
 
     config.app = {
