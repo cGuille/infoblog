@@ -16,7 +16,7 @@
         host: 'localhost',
         port: null,
         dbName: 'infoblog',
-        maxPoolSize: null,
+        poolSize: null,
         autoReconnect: true,
     };
 }());
