@@ -33,7 +33,7 @@
             error = new Error(request.query.error);
         }
 
-        response.render('login-form', {
+        response.render('auth/login-form', {
             action: callbackUrl ? '?' + querystring.stringify({ from: callbackUrl }) : '',
             data: { login: lastAttempt || '' },
             error: error
