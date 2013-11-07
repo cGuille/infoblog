@@ -20,6 +20,11 @@
      * GET login page
      */
     exports.loginForm = function askCredentials(request, response) {
+        if (request.user) {
+            response.redirect('/');
+            return;
+        }
+
         var callbackUrl = request.query.from,
             lastAttempt = request.query.attempt,
             error;
