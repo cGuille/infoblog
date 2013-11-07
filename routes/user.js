@@ -15,6 +15,41 @@
     };
 
     /*
+     * GET user profile
+     */
+    exports.profile = function userProfile(request, response, next) {
+        var userLogin = request.query.login,
+            userId = request.query.id,
+            editionMode = request.query.mode === 'edition';
+
+        if (userLogin) {
+            userProvider.findByLogin(userLogin, callback);
+        } else if (userId) {
+            userProvider.findById(userId, callback);
+        } else if(!request.user) {
+            next();
+        } else {
+            callback(null, request.user);
+        }
+
+        function callback(error, user) {
+            if (error) {
+                next(error);
+                return;
+            }
+
+            if (!user) {
+                next(new Error('this user does not exist'));
+            } else {
+                response.render('user/profile', {
+                    userProfile: user,
+                    mode: editionMode ? 'edition' : 'reading'
+                });
+            }
+        }
+    };
+
+    /*
      * GET users listing.
      */
     exports.list = function listUsers(req, res) {
@@ -24,7 +59,7 @@
     };
 
     /*
-     * GET user profile
+     * GET user
      */
     exports.details = function findUser(req, res, next) {
         var userLogin = req.query.login,

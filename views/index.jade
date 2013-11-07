@@ -3,10 +3,14 @@ extends layout
 block content
     h1= title
     ul
-        li
-            if user
+        if user
+            li
                 a(href="/logout") Logout
-            else
+        else
+            li
                 a(href="/login") Login
+        if user
+            li
+                a(href="/user/profile") Profile
         li
             a(href="/user/list") User list

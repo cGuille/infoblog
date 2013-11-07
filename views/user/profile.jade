@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+    if error
+        p.error= error.message
+    if info
+        p.info= info
+
+    h1 Profile of « #{userProfile .login} »
+
+    if mode === 'edition'
+        include profile-form
+    else
+        include profile-view
+
+    p
+        a(href='/') Back

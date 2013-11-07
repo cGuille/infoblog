@@ -61,8 +61,7 @@
             db: db,
             restrictions: {
                 // RegExp of URL path pattern : list of allowed roles
-                '^/user/list': ['owner', 'guest'],
-                '^/user/details': ['owner'],
+                '^/user/(list|details)': ['owner'],
             }
         }));
         app.use(express.csrf());
@@ -87,6 +86,8 @@
         userRoutes.init(db);
         app.get('/user/list', userRoutes.list);
         app.get('/user/details', userRoutes.details);
+        app.get('/user/profile', userRoutes.profile);
+        // app.post('/user/profile', userRoutes.changeProfile);
 
         // Starting server
         http.createServer(app).listen(app.get('port'), function serverReady() {
