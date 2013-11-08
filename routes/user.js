@@ -4,6 +4,7 @@
     var exports = module.exports = {};
 
     var querystring = require('querystring'),
+        HttpError = require('../lib/http-error'),
         UserProvider = require('../providers/user');
 
     var userProvider;
@@ -14,6 +15,8 @@
         }
         userProvider = new UserProvider(db);
     };
+
+    /*
 
     /*
      * GET user profile
@@ -41,7 +44,7 @@
             }
 
             if (!user) {
-                next(new Error('this user does not exist'));
+                next(new HttpError(404, 'this user does not exist'));
             } else {
                 response.render('user/profile', {
                     userProfile: user,
@@ -54,34 +57,38 @@
     /*
      * GET users listing.
      */
-    exports.list = function listUsers(req, res) {
+    exports.list = function listUsers(request, response) {
         userProvider.list(function (error, userList) {
-            res.send(error || JSON.stringify(userList));
+            if (error) {
+                next(error);
+            } else {
+                response.json(userList);
+            }
         });
     };
 
     /*
      * GET user
      */
-    exports.details = function findUser(req, res, next) {
-        var userLogin = req.query.login,
-            userId = req.query.id;
+    exports.details = function findUser(request, response, next) {
+        var userLogin = request.query.login,
+            userId = request.query.id;
 
         if (userLogin) {
             userProvider.findByLogin(userLogin, callback);
         } else if (userId) {
             userProvider.findById(userId, callback);
         } else {
-            next();
+            next(new HttpError(400, 'no user specified'));
         }
 
         function callback(error, user) {
             if (error) {
-                res.send(JSON.stringify(error));
+                next(error);
             } else if (!user) {
-                res.send('This user does not exist.');
+                next(new HttpError(404, 'this user does not exist'));
             } else {
-                res.send(JSON.stringify(user));
+                response.json(user);
             }
         }
     };
