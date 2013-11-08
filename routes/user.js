@@ -20,7 +20,8 @@
     exports.profile = function userProfile(request, response, next) {
         var userLogin = request.query.login,
             userId = request.query.id,
-            editionMode = request.query.mode === 'edition';
+            isOwner = request.user && request.user.role === 'owner',
+            editionMode = request.query.mode === 'edition' && (!userLogin && !userId || isOwner);
 
         if (userLogin) {
             userProvider.findByLogin(userLogin, callback);
