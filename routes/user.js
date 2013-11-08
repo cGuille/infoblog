@@ -3,7 +3,8 @@
 
     var exports = module.exports = {};
 
-    var UserProvider = require('../providers/user');
+    var querystring = require('querystring'),
+        UserProvider = require('../providers/user');
 
     var userProvider;
 
@@ -28,7 +29,7 @@
         } else if (userId) {
             userProvider.findById(userId, callback);
         } else if(!request.user) {
-            next();
+            response.redirect('/login?' + querystring.stringify({ from: '/user/profile' }));
         } else {
             callback(null, request.user);
         }
