@@ -55,6 +55,7 @@
         ENV_DEV && app.use(express.logger('dev')); // Development only
         app.use(express.bodyParser());
         app.use(express.methodOverride());
+        !ENV_DEV && app.use(express.compress());
         app.use(express.cookieParser(config.app.cookieSecret));
         app.use(express.session({ store: sessionStore }));
         app.use(auth({
