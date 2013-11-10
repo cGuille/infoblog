@@ -3,6 +3,8 @@
 
     var exports = module.exports = {};
 
+    var MONGO_DUPLICATED_INDEX_ERROR_CODE = 11001;
+
     var querystring = require('querystring'),
         HttpError = require('../lib/http-error'),
         UserProvider = require('../providers/user');
@@ -60,10 +62,23 @@
                 user.update(userData);
                 userProvider.update(user, function (error, affectedRecordsCount) {
                     if (error) {
-                        next(error);
+                        if (error.code !== MONGO_DUPLICATED_INDEX_ERROR_CODE) {
+                            next(error);
+                        } else {
+                            var userError = new Error(error.err);
+                            userError.reason = 'duplicated';
+                            if (error.err.indexOf('$login_1') !== -1) {
+                                userError.duplicatedField = 'login';
+                            }
+                            request.flash.set('error', userError);
+                            request.flash.set('attempt', request.body);
+                            response.redirect(request.url);
+                        }
                     } else {
                         request.flash.set('updated', true);
-                        response.redirect('/user/profile');
+                        var query = request.query;
+                        delete query.mode;
+                        response.redirect(request.path + '?' + querystring.stringify(query));
                     }
                 });
             }
@@ -103,6 +118,8 @@
             } else {
                 response.render('user/profile', {
                     userProfile: user,
+                    error: request.flash.error || null,
+                    attempt: request.flash.attempt || null,
                     updated: !!request.flash.updated,
                     mode: editionMode ? 'edition' : 'reading',
                     editionUrl: '/user/profile?' + querystring.stringify(editionUrlQuery)

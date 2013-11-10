@@ -2,7 +2,10 @@ extends ../layout
 
 block content
     if error
-        p.error= error.message
+        if error.reason === 'duplicated' && error.duplicatedField === 'login'
+            p.error The login "#{attempt.login}" is already taken, please choose another.
+        else
+            p.error= error.message
     if updated
         if user._id === userProfile._id
             p.info Your profile details have been updated.
