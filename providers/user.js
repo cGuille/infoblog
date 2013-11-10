@@ -9,6 +9,16 @@
 
     function UserProvider(db) {
         this.db = db;
+        this.getCollection(function (error, collection) {
+            if (error) {
+                throw error;
+            }
+            collection.ensureIndex({ login: 1 }, { unique: true }, function (error) {
+                if (error) {
+                    throw error;
+                }
+            });
+        });
     }
 
     UserProvider.prototype = new Provider('users');
