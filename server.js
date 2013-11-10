@@ -90,7 +90,7 @@
         app.get('/user/list', userRoutes.list);
         app.get('/user/details', userRoutes.details);
         app.get('/user/profile', userRoutes.profile);
-        // app.post('/user/profile', userRoutes.changeProfile);
+        app.post('/user/profile', userRoutes.updateProfile);
 
         // Starting server
         http.createServer(app).listen(app.get('port'), function serverReady() {

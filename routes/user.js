@@ -17,6 +17,58 @@
     };
 
     /*
+     * POST change profile
+     */
+    exports.updateProfile = function updateProfile(request, response, next) {
+        var userLogin = request.query.login,
+            userId = request.query.id,
+            isOwner = request.user && request.user.role === 'owner';
+
+        if ((userLogin || userId) && !isOwner) {
+            next(new HttpError(403, 'you are not allowed to change this user\'s profile'));
+            return;
+        }
+        if (!isOwner && request.body.role) {
+            next(new HttpError(403, 'you are not allowed to change roles'));
+            return;
+        }
+
+        if (userLogin) {
+            userProvider.findByLogin(userLogin, callback);
+        } else if (userId) {
+            userProvider.findById(userId, callback);
+        } else if(!request.user) {
+            response.redirect('/login?' + querystring.stringify({ from: request.url }));
+        } else {
+            callback(null, request.user);
+        }
+
+        function callback(error, user) {
+            var userData = { login: request.body.login };
+            if (request.body.role) {
+                userData.role = request.body.role;
+            }
+
+            if (error) {
+                next(error);
+                return;
+            }
+
+            if (!user) {
+                next(new HttpError(404, 'this user does not exist'));
+            } else {
+                user.update(userData);
+                userProvider.update(user, function (error, affectedRecordsCount) {
+                    if (error) {
+                        next(error);
+                    } else {
+                        request.flash.set('updated', true);
+                        response.redirect('/user/profile');
+                    }
+                });
+            }
+        }
+    };
 
     /*
      * GET user profile
@@ -25,14 +77,17 @@
         var userLogin = request.query.login,
             userId = request.query.id,
             isOwner = request.user && request.user.role === 'owner',
-            editionMode = request.query.mode === 'edition' && (!userLogin && !userId || isOwner);
+            editionMode = request.query.mode === 'edition' && (!userLogin && !userId || isOwner),
+            editionUrlQuery = { mode: 'edition' };
 
         if (userLogin) {
+            editionUrlQuery.login = userLogin;
             userProvider.findByLogin(userLogin, callback);
         } else if (userId) {
+            editionUrlQuery.id = userId;
             userProvider.findById(userId, callback);
         } else if(!request.user) {
-            response.redirect('/login?' + querystring.stringify({ from: '/user/profile' }));
+            response.redirect('/login?' + querystring.stringify({ from: request.url }));
         } else {
             callback(null, request.user);
         }
@@ -48,7 +103,9 @@
             } else {
                 response.render('user/profile', {
                     userProfile: user,
-                    mode: editionMode ? 'edition' : 'reading'
+                    updated: !!request.flash.updated,
+                    mode: editionMode ? 'edition' : 'reading',
+                    editionUrl: '/user/profile?' + querystring.stringify(editionUrlQuery)
                 });
             }
         }

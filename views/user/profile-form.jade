@@ -1,4 +1,15 @@
 form(action, method="post")
     !{csrf_protection}
 
+    label(for="login") Login :
+    br
+    input(type="text", value=userProfile.login, id="login", name="login")
+    br
+
+    if user.role === 'owner'
+        label(for="role") role :
+        br
+        input(type="text", value=userProfile.role, id="role", name="role")
+        br
+
     button(type="submit") Save

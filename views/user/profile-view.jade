@@ -3,3 +3,7 @@ div.user-profile
         login : #{userProfile.login}
     div.profile-item.
         role : #{userProfile.role || 'none'}
+
+    if user && (user.role === 'owner' || user._id === userProfile._id)
+        div
+            a(href=editionUrl) Edit

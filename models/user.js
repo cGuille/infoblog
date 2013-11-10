@@ -18,6 +18,21 @@
         }
     }
 
+    User.prototype.update = function(userData) {
+        var allowedFields = ['login', 'role'],
+            field;
+
+        for (field in userData) {
+            if (userData.hasOwnProperty(field)) {
+                if (allowedFields.indexOf(field) === -1) {
+                    throw new Error('changing the field ' + field + ' is not allowed');
+                }
+            }
+        }
+
+        this.populate(userData);
+    };
+
     User.prototype.setPassword = function (rawPassword) {
         this.hashpass = hashPassword(rawPassword, getSalt.call(this));
     };

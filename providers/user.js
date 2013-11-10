@@ -33,6 +33,16 @@
         });
     };
 
+    UserProvider.prototype.update = function updateUser(user, callback) {
+        this.getCollection(function (error, collection) {
+            if (error) {
+                callback(error);
+                return;
+            }
+            collection.update({ _id: user._id }, user, { safe: true }, callback);
+        });
+    };
+
     UserProvider.prototype.findByLogin = function findUserByLogin(userLogin, callback) {
         this.getCollection(function (error, collection) {
             if (error) {
