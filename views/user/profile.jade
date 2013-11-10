@@ -4,7 +4,10 @@ block content
     if error
         p.error= error.message
     if updated
-        p.info Your profile details have been updated.
+        if user._id === userProfile._id
+            p.info Your profile details have been updated.
+        else
+            p.info The profile of #{userProfile.login} has been updated.
 
     h1 Profile of « #{userProfile .login} »
 
