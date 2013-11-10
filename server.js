@@ -17,6 +17,7 @@
             userRoutes = require('./routes/user'),
             config = require('./config'),
             dbAccess = require('./lib/db-access'),
+            flashsession = require('./lib/flash-session'),
             auth = require('./lib/auth');
     } catch (error) {
         var moduleName = error.message.substring(error.message.indexOf("'") + 1, error.message.lastIndexOf("'"));
@@ -58,6 +59,7 @@
         !ENV_DEV && app.use(express.compress());
         app.use(express.cookieParser(config.app.cookieSecret));
         app.use(express.session({ store: sessionStore }));
+        app.use(flashsession);
         app.use(auth({
             db: db,
             restrictions: {
