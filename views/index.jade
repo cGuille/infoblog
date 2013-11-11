@@ -1,16 +1,16 @@
 extends layout
 
 block content
-    h1= title
+    h1= i18n.titles.main
     ul
         if user
             li
-                a(href="/logout") Logout
+                a(href="/logout")= i18n.ui.buttons.logout
         else
             li
-                a(href="/login") Login
+                a(href="/login")= i18n.ui.buttons.login
         if user
             li
-                a(href="/user/profile") Profile
+                a(href="/user/profile")= i18n.ui.buttons.profile
         li
-            a(href="/user/list") User list
+            a(href="/user/list")= i18n.ui.buttons.userlist

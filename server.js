@@ -18,7 +18,8 @@
             config = require('./config'),
             dbAccess = require('./lib/db-access'),
             flashsession = require('./lib/flash-session'),
-            auth = require('./lib/auth');
+            auth = require('./lib/auth'),
+            i18n = require('./lib/i18n');
     } catch (error) {
         var moduleName = error.message.substring(error.message.indexOf("'") + 1, error.message.lastIndexOf("'"));
         console.error(error.message);
@@ -67,6 +68,7 @@
                 '^/user/(list|details)': ['owner'],
             }
         }));
+        app.use(i18n({ supportedLocales: ['fr', 'en-US'] }));
         app.use(express.csrf());
         app.use(function exportCSRFProtection(request, response, next) {
             // just add !{csrf_protection} in a jade template form

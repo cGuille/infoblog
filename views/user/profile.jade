@@ -3,16 +3,16 @@ extends ../layout
 block content
     if error
         if error.reason === 'duplicated' && error.duplicatedField === 'login'
-            p.error The login "#{attempt.login}" is already taken, please choose another.
+            p.error #{i18n.messages.error.loginused.ucFirst().feed(attempt)}.
         else
             p.error= error.message
     if updated
         if user._id === userProfile._id
-            p.info Your profile details have been updated.
+            p.info #{i18n.messages.info.profileupdated.own}.
         else
-            p.info The profile of #{userProfile.login} has been updated.
+            p.info #{i18n.messages.info.profileupdated.other.feed(userProfile)}.
 
-    h1 Profile of « #{userProfile .login} »
+    h1= i18n.titles.profileof.feed(userProfile)
 
     if mode === 'edition'
         include profile-form
@@ -20,4 +20,4 @@ block content
         include profile-view
 
     p
-        a(href='/') Back
+        a(href='/')= i18n.ui.buttons.back
