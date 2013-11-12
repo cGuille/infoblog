@@ -4,6 +4,6 @@ div.user-profile
     div.profile-item.
         #{i18n.ui.labels.role.ucFirst()} : #{userProfile.role || 'none'}
 
-    if user && (user.role === 'owner' || user._id === userProfile._id)
+    if user && (user.role === 'owner' || user._id.equals(userProfile._id))
         div
             a(href=editionUrl)= i18n.ui.buttons.edit

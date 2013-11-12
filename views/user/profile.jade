@@ -7,7 +7,7 @@ block content
         else
             p.error= error.message
     if updated
-        if user._id === userProfile._id
+        if user._id.equals(userProfile._id)
             p.info #{i18n.messages.info.profileupdated.own}.
         else
             p.info #{i18n.messages.info.profileupdated.other.feed(userProfile)}.
