@@ -57,7 +57,14 @@
             });
         },
         function (end) {
-            // Ask for an optional role
+            // Ask for a Twitter account
+            ui.question('twitter account (optional): @', function (twitterAccount) {
+                user.twitterAccount = twitterAccount.trim();
+                end(null);
+            });
+        },
+        function (end) {
+            // Ask for a role
             ui.question('role: ', function (role) {
                 role = role.trim();
                 if (role) {

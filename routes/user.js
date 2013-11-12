@@ -46,7 +46,11 @@
         }
 
         function callback(error, user) {
-            var userData = { login: request.body.login };
+            var userData = {
+                    login: request.body.login,
+                    twitterAccount: request.body.twitterAccount,
+                };
+
             if (request.body.role) {
                 userData.role = request.body.role;
             }

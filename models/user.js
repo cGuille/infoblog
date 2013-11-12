@@ -19,7 +19,7 @@
     User.inheritFrom(Model);
 
     User.prototype.update = function(userData) {
-        var allowedFields = ['login', 'role'],
+        var allowedFields = ['login', 'role', 'twitterAccount'],
             field;
 
         for (field in userData) {

@@ -1,6 +1,11 @@
 div.user-profile
     div.profile-item.
         #{i18n.ui.labels.login.ucFirst()} : #{userProfile.login}
+    div.profile-item #{i18n.ui.labels.twitterAccount.ucFirst()} : 
+        if userProfile.twitterAccount
+            a(target="blank" href='http://twitter.com/' + userProfile.twitterAccount) @#{userProfile.twitterAccount}
+        else
+            span ✗
     div.profile-item.
         #{i18n.ui.labels.role.ucFirst()} : #{userProfile.role === 'none' ? '✗' : userProfile.role}
 

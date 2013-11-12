@@ -15,6 +15,7 @@
             },
             labels: {
                 login: "login",
+                twitterAccount: "Twitter account",
                 password: "password",
                 role: "role",
                 connection: "log in",

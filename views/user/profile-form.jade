@@ -6,6 +6,11 @@ form(action, method="post")
     input(type="text", value=attempt && attempt.login ? attempt.login : userProfile.login, id="login", name="login")
     br
 
+    label(for="twitterAccount") #{i18n.ui.labels.twitterAccount.ucFirst()} :
+    br
+    input(type="text", value=attempt && attempt.twitterAccount ? attempt.twitterAccount : userProfile.twitterAccount, id="twitterAccount", name="twitterAccount")
+    br
+
     if user.role === 'owner'
         label(for="role") #{i18n.ui.labels.role.ucFirst()} :
         br
