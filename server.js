@@ -68,7 +68,7 @@
                 '^/user/(list|details)': ['owner'],
             }
         }));
-        app.use(i18n({ supportedLocales: ['fr', 'en-US'] }));
+        app.use(i18n({ supportedLanguages: ['fr', 'en'] }));
         app.use(express.csrf());
         app.use(function exportCSRFProtection(request, response, next) {
             // just add !{csrf_protection} in a jade template form
