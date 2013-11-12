@@ -3,10 +3,9 @@
 
     module.exports = User;
 
+    require('../lib/proto-enhancements');
     var crypto = require('crypto'),
         Model = require('./model');
-
-    User.prototype = new Model();
 
     function User(userData) {
         if (userData) {
@@ -17,6 +16,7 @@
             this.registrationDate = new Date();
         }
     }
+    User.inheritFrom(Model);
 
     User.prototype.update = function(userData) {
         var allowedFields = ['login', 'role'],

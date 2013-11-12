@@ -3,11 +3,15 @@
 
     module.exports = UserProvider;
 
+    require('../lib/proto-enhancements');
     var Provider = require('./provider'),
         User = require('../models/user'),
         ObjectID = require('mongodb').ObjectID;
 
+    var COLLECTION_NAME = 'users';
+
     function UserProvider(db) {
+        UserProvider.super_.call(this, COLLECTION_NAME);
         this.db = db;
         this.getCollection(function (error, collection) {
             if (error) {
@@ -20,8 +24,7 @@
             });
         });
     }
-
-    UserProvider.prototype = new Provider('users');
+    UserProvider.inheritFrom(Provider);
 
     UserProvider.prototype.list = function listUsers(callback) {
         this.getCollection(function (error, collection) {
