@@ -64,9 +64,7 @@
                     if (-1 === VALID_ROLES.indexOf(role)) {
                         end(new Error('invalid role "' + role + '", valid roles are: ' + VALID_ROLES.map(function (r) { return '"' + r + '"'; }).join(', ')));
                     } else {
-                        if (role !== 'none') {
-                            user.role = role;
-                        }
+                        user.role = role;
                         end(null);
                     }
                 }
